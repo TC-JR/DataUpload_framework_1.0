@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace DataUpload_framework_1._0
@@ -21,13 +22,9 @@ namespace DataUpload_framework_1._0
         {
             InitializeComponent();
             //下拉列表
-            uiComboBox1.Items.Add("1500");
-            uiComboBox1.Items.Add("3000");
-            uiComboBox1.SelectedIndex = Convert.ToInt32(JsonConfigHelper.ReadConfig("laser"));
             //打开参数界面关闭停止监听按钮状态
             Form1.PasswordOk = false;
             //载入数据
-            //uiTextBox21.Text = JsonConfigHelper.ReadConfig("laser");
             uiTextBox1.Text = JsonConfigHelper.ReadConfig("speed1");
             uiTextBox2.Text = JsonConfigHelper.ReadConfig("power1");
             uiTextBox3.Text = JsonConfigHelper.ReadConfig("speed2");
@@ -40,6 +37,14 @@ namespace DataUpload_framework_1._0
             uiTextBox16.Text = JsonConfigHelper.ReadConfig("power5");
             uiTextBox17.Text = JsonConfigHelper.ReadConfig("speed6");
             uiTextBox18.Text = JsonConfigHelper.ReadConfig("power6");
+            uiTextBox5.Text = JsonConfigHelper.ReadConfig("speed7");
+            uiTextBox6.Text = JsonConfigHelper.ReadConfig("power7");
+            uiTextBox13.Text = JsonConfigHelper.ReadConfig("banjingA");
+            uiTextBox14.Text = JsonConfigHelper.ReadConfig("banjingB");
+            uiTextBox19.Text = JsonConfigHelper.ReadConfig("jianju");
+            uiCheckBox1.Checked = Convert.ToBoolean(JsonConfigHelper.ReadConfig("AutoUpData"));
+            textBox1.Text = Form1.dataPath;
+
             uiTextBox7.Text = JsonConfigHelper.ReadConfig("FocalLength");
             uiTextBox8.Text = JsonConfigHelper.ReadConfig("Time");
             ReaduiSwitch();
@@ -56,6 +61,9 @@ namespace DataUpload_framework_1._0
             bool Switch6 = Form1.six;
             bool Switch7 = Form1.seven;
             bool Switch8 = Form1.eight;
+            bool Switch9 = Form1.nine;
+            bool Switch10 = Form1.ten;
+
 
             // 设置开关状态
             uiSwitch1.Active = Switch1;
@@ -66,6 +74,9 @@ namespace DataUpload_framework_1._0
             uiSwitch6.Active = Switch6;
             uiSwitch7.Active = Switch7;
             uiSwitch8.Active = Switch8;
+            uiSwitch9.Active = Switch9;
+            uiSwitch10.Active = Switch10;
+
         }
 
 
@@ -80,6 +91,9 @@ namespace DataUpload_framework_1._0
             AppSettings.SetValue("uiSwitch6", uiSwitch6.Active.ToString());
             AppSettings.SetValue("uiSwitch7", uiSwitch7.Active.ToString());
             AppSettings.SetValue("uiSwitch8", uiSwitch8.Active.ToString());
+            AppSettings.SetValue("uiSwitch9", uiSwitch9.Active.ToString());
+            AppSettings.SetValue("uiSwitch10", uiSwitch10.Active.ToString());
+
 
             //重新更新变量
             Form1.one = uiSwitch1.Active;
@@ -90,6 +104,8 @@ namespace DataUpload_framework_1._0
             Form1.six = uiSwitch6.Active;
             Form1.seven = uiSwitch7.Active;
             Form1.eight = uiSwitch8.Active;
+            Form1.nine = uiSwitch9.Active;
+            Form1.ten = uiSwitch10.Active;
 
         }
 
@@ -109,71 +125,36 @@ namespace DataUpload_framework_1._0
             JsonConfigHelper.WriteConfig("power5", uiTextBox16.Text);
             JsonConfigHelper.WriteConfig("speed6", uiTextBox17.Text);
             JsonConfigHelper.WriteConfig("power6", uiTextBox18.Text);
+            JsonConfigHelper.WriteConfig("speed7", uiTextBox5.Text);
+            JsonConfigHelper.WriteConfig("power7", uiTextBox6.Text);
+            JsonConfigHelper.WriteConfig("banjingA", uiTextBox13.Text);
+            JsonConfigHelper.WriteConfig("banjingB", uiTextBox14.Text);
+            JsonConfigHelper.WriteConfig("jianju", uiTextBox19.Text);
+            JsonConfigHelper.WriteConfig("AutoUpData", uiCheckBox1.Checked.ToString());
+            Form1.AutoUpData = uiCheckBox1.Checked;
             JsonConfigHelper.WriteConfig("FocalLength", uiTextBox7.Text);
             JsonConfigHelper.WriteConfig("Time", uiTextBox8.Text);
-            JsonConfigHelper.WriteConfig("laser", uiComboBox1.SelectedIndex.ToString());
-
+            Form1.dataPath = textBox1.Text;
+            JsonConfigHelper.WriteConfig("datapath",Form1.dataPath);
             SaveuiSwitch();
             //关闭窗口
             this.Close();
         }
 
-        private void uiButton2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            var a = "";
-            Energy(uiTextBox6.Text, ref a);
-            uiTextBox2.Text += a;
-        }
-        private void uiButton3_Click(object sender, EventArgs e)
-        {
-            var a = "";
-            Energy(uiTextBox5.Text, ref a);
-            uiTextBox4.Text += a;
-        }
-        private void uiButton4_Click(object sender, EventArgs e)
-        {
-            var a = "";
-            Energy(uiTextBox13.Text, ref a);
-            uiTextBox10.Text += a;
-        }
-        private void uiButton5_Click(object sender, EventArgs e)
-        {
-            var a = "";
-            Energy(uiTextBox14.Text, ref a);
-            uiTextBox12.Text += a;
-        }
-        private void uiButton6_Click(object sender, EventArgs e)
-        {
-            var a = "";
-            Energy(uiTextBox19.Text, ref a);
-            uiTextBox16.Text += a;
-        }
-        private void uiButton7_Click(object sender, EventArgs e)
-        {
-            var a = "";
-            Energy(uiTextBox20.Text, ref a);
-            uiTextBox18.Text += a;
-        }
-
-
-        public void Energy(string str, ref string rst)
-        {
-            try
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "D://";
+            openFileDialog.Filter = "程序文件|*.data|所有文件|*.*";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (uiComboBox1.SelectedIndex == 0)
-                {
-                    rst = (Convert.ToDouble(str) / 100 * 1500).ToString();
-                }
-                else
-                {
-                    rst = (Convert.ToDouble(str) / 100 * 3000).ToString();
-                }
+                textBox1.Text = openFileDialog.FileName;
+                Form1.dataPath = openFileDialog.FileName;
             }
-            catch { }
+
         }
-
-
-
     }
 
 }

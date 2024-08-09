@@ -40,6 +40,12 @@ namespace DataUpload_framework_1._0
         public static string UpPower5;
         public static string UpSpeed6;
         public static string UpPower6;
+        public static string UpSpeed7;
+        public static string UpPower7;
+        public static string UpbanjingA;
+        public static string UpbanjingB;
+        public static string Upjianju;
+
         public static string UpFocalLength;
         public static string UpTime;
         //开关状态
@@ -51,7 +57,16 @@ namespace DataUpload_framework_1._0
         public static bool six;
         public static bool seven;
         public static bool eight;
+        public static bool nine;
+        public static bool ten;
+
         public static bool createNew;
+
+        //是否自动上传
+        public static bool AutoUpData;
+        //读取文件路径
+        public static string dataPath;
+
         public Form1()
         {
             InitializeComponent();
@@ -78,6 +93,16 @@ namespace DataUpload_framework_1._0
             UpPower5 = JsonConfigHelper.ReadConfig("power5");
             UpSpeed6 = JsonConfigHelper.ReadConfig("speed6");
             UpPower6 = JsonConfigHelper.ReadConfig("power6");
+            UpSpeed7 = JsonConfigHelper.ReadConfig("power7");
+            UpPower7 = JsonConfigHelper.ReadConfig("speed7");
+            UpbanjingA = JsonConfigHelper.ReadConfig("banjingA");
+            UpbanjingB = JsonConfigHelper.ReadConfig("banjingB");
+            Upjianju = JsonConfigHelper.ReadConfig("jianju");
+            dataPath = JsonConfigHelper.ReadConfig("datapath");
+            //是否自动上传
+            AutoUpData = Convert.ToBoolean(JsonConfigHelper.ReadConfig("AutoUpData"));
+
+
             UpFocalLength = JsonConfigHelper.ReadConfig("FocalLength");
             UpTime = JsonConfigHelper.ReadConfig("Time");
             txt_IP.Text = JsonConfigHelper.ReadConfig("ip");
@@ -94,9 +119,12 @@ namespace DataUpload_framework_1._0
             six = Convert.ToBoolean(AppSettings.GetValue("uiSwitch6"));
             seven = Convert.ToBoolean(AppSettings.GetValue("uiSwitch7"));
             eight = Convert.ToBoolean(AppSettings.GetValue("uiSwitch8"));
+            nine = Convert.ToBoolean(AppSettings.GetValue("uiSwitch9"));
+            ten = Convert.ToBoolean(AppSettings.GetValue("uiSwitch10"));
+
         }
         #region 使用互斥量防止程序重复运行
-        static Mutex mutex = new Mutex(true, "{YourAppGuid}"); // {YourAppGuid}为应用程序的全局唯一标识符
+        static Mutex mutex = new Mutex(true, "{UpLoad}"); // {YourAppGuid}为应用程序的全局唯一标识符
         [STAThread]
 
         private void Form1_Load(object sender, EventArgs e)
@@ -161,7 +189,7 @@ namespace DataUpload_framework_1._0
         //接收客户端发送消息的线程
         Thread threadReceive;
 
-
+        //检查注册表
         public static string ReadRegistryValue(string keyName)
         {
             string value = "";
@@ -352,7 +380,16 @@ namespace DataUpload_framework_1._0
             {
                 if (!LoginStatus)
                 {
-                    strMsg = alls();
+                    if (AutoUpData)
+                    {
+                        //上传文件内的参数组
+                        strMsg = files();
+                    }
+                    else
+                    {
+                        //上传预设参数
+                        strMsg = alls();
+                    }
                 }
                 else
                 {
@@ -379,6 +416,8 @@ namespace DataUpload_framework_1._0
             }
 
         }
+
+
         /// <summary>
         /// 服务器给客户端发送消息
         /// </summary>
@@ -596,9 +635,58 @@ namespace DataUpload_framework_1._0
                 UpPower5 = JsonConfigHelper.ReadConfig("power5");
                 UpSpeed6 = JsonConfigHelper.ReadConfig("speed6");
                 UpPower6 = JsonConfigHelper.ReadConfig("power6");
+                UpSpeed7 = JsonConfigHelper.ReadConfig("speed7");
+                UpPower7 = JsonConfigHelper.ReadConfig("power7");
+                UpbanjingA = JsonConfigHelper.ReadConfig("banjingA");
+                UpbanjingB = JsonConfigHelper.ReadConfig("banjingB");
+                Upjianju = JsonConfigHelper.ReadConfig("jianju");
+
+
+
+
                 UpFocalLength = JsonConfigHelper.ReadConfig("FocalLength");
                 UpTime = JsonConfigHelper.ReadConfig("Time");
             }
+        }
+
+
+        public string ReadFile()
+        {
+            string fileContent = "";
+            // 检查文件是否存在
+            if (File.Exists(dataPath))
+            {
+                // 读取文件内容
+                fileContent = File.ReadAllText(dataPath);
+                Debug.WriteLine("文件内容：");
+                Debug.WriteLine(fileContent);
+                return fileContent;
+            }
+            else
+            {
+                return fileContent;
+                //MessageBox.Show("指定的文件路径或文件名不存在。");
+            }
+
+        }
+
+        public string files()
+        {
+            string a = null;
+            a = ReadFile();
+            if (ten)
+            {
+                a += UpbanjingA + ";" + UpbanjingB + ";" + Upjianju + ";";
+            }
+            if (seven)
+            {
+                a += UpFocalLength + ";";
+            }
+            if (eight)
+            {
+                a += UpTime + ";";
+            }
+            return a;
         }
 
 
@@ -628,6 +716,14 @@ namespace DataUpload_framework_1._0
             if (six)
             {
                 a += UpSpeed6 + ";" + UpPower6 + ";";
+            }
+            if (nine)
+            {
+                a += UpSpeed7 + ";" + UpPower7 + ";";
+            }
+            if (ten)
+            {
+                a += UpbanjingA + ";" + UpbanjingB + ";" + Upjianju + ";";
             }
             if (seven)
             {
@@ -707,7 +803,6 @@ namespace DataUpload_framework_1._0
                 txt_Log.Text = "";
             }
         }
-
 
     }
 }
