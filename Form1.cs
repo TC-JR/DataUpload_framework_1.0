@@ -24,7 +24,6 @@ namespace DataUpload_framework_1._0
 
     public partial class Form1 : Form
     {
-
         //加载密码
         public static string Passworld1_administrators;
         //上传数据读取
@@ -67,62 +66,17 @@ namespace DataUpload_framework_1._0
         //读取文件路径
         public static string dataPath;
 
+        //读配置文件
+        public static string configFilePath = "config.json";
+        public static JsonConfigManager configManager = new JsonConfigManager(configFilePath);
+        public ConfigClass config = configManager.Read<ConfigClass>();
+
         public Form1()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
-            uiButton1.Enabled = false;
-            uiButton2.Enabled = false;
-            //uiButton3.Enabled = false;
-            //uiButton4.Enabled = false;
-            txt_IP.Enabled = false;
-            txt_Port.Enabled = false;
-            cmb_Socket.Enabled = false;
-            //txt_Msg.Enabled = false;
-            //读配置文件
-            Passworld1_administrators = JsonConfigHelper.ReadConfig("password");
-            UpSpeed1 = JsonConfigHelper.ReadConfig("speed1");
-            UpPower1 = JsonConfigHelper.ReadConfig("power1");
-            UpSpeed2 = JsonConfigHelper.ReadConfig("speed2");
-            UpPower2 = JsonConfigHelper.ReadConfig("power2");
-            UpSpeed3 = JsonConfigHelper.ReadConfig("speed3");
-            UpPower3 = JsonConfigHelper.ReadConfig("power3");
-            UpSpeed4 = JsonConfigHelper.ReadConfig("speed4");
-            UpPower4 = JsonConfigHelper.ReadConfig("power4");
-            UpSpeed5 = JsonConfigHelper.ReadConfig("speed5");
-            UpPower5 = JsonConfigHelper.ReadConfig("power5");
-            UpSpeed6 = JsonConfigHelper.ReadConfig("speed6");
-            UpPower6 = JsonConfigHelper.ReadConfig("power6");
-            UpSpeed7 = JsonConfigHelper.ReadConfig("power7");
-            UpPower7 = JsonConfigHelper.ReadConfig("speed7");
-            UpbanjingA = JsonConfigHelper.ReadConfig("banjingA");
-            UpbanjingB = JsonConfigHelper.ReadConfig("banjingB");
-            Upjianju = JsonConfigHelper.ReadConfig("jianju");
-            dataPath = JsonConfigHelper.ReadConfig("datapath");
-            //是否自动上传
-            AutoUpData = Convert.ToBoolean(JsonConfigHelper.ReadConfig("AutoUpData"));
-
-
-            UpFocalLength = JsonConfigHelper.ReadConfig("FocalLength");
-            UpTime = JsonConfigHelper.ReadConfig("Time");
-            txt_IP.Text = JsonConfigHelper.ReadConfig("ip");
-            txt_Port.Text = JsonConfigHelper.ReadConfig("port");
-            uiComboBox1.Items.Add("操作员");
-            uiComboBox1.Items.Add("管理员");
-            uiComboBox1.SelectedIndex = 0;
-            //读开关状态
-            one = Convert.ToBoolean(AppSettings.GetValue("uiSwitch1"));
-            two = Convert.ToBoolean(AppSettings.GetValue("uiSwitch2"));
-            three = Convert.ToBoolean(AppSettings.GetValue("uiSwitch3"));
-            four = Convert.ToBoolean(AppSettings.GetValue("uiSwitch4"));
-            five = Convert.ToBoolean(AppSettings.GetValue("uiSwitch5"));
-            six = Convert.ToBoolean(AppSettings.GetValue("uiSwitch6"));
-            seven = Convert.ToBoolean(AppSettings.GetValue("uiSwitch7"));
-            eight = Convert.ToBoolean(AppSettings.GetValue("uiSwitch8"));
-            nine = Convert.ToBoolean(AppSettings.GetValue("uiSwitch9"));
-            ten = Convert.ToBoolean(AppSettings.GetValue("uiSwitch10"));
-
         }
+
         #region 使用互斥量防止程序重复运行
         static Mutex mutex = new Mutex(true, "{UpLoad}"); // {YourAppGuid}为应用程序的全局唯一标识符
         [STAThread]
@@ -142,8 +96,56 @@ namespace DataUpload_framework_1._0
             {
                 MessageBox.Show("该程序已经在运行了！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Environment.Exit(0);
-
             }
+
+            uiButton1.Enabled = false;
+            uiButton2.Enabled = false;
+            txt_IP.Enabled = false;
+            txt_Port.Enabled = false;
+            cmb_Socket.Enabled = false;
+            //读配置文件
+
+            Passworld1_administrators = config.password;
+            UpSpeed1 = config.speed1;
+            UpPower1 = config.power1;
+            UpSpeed2 = config.speed2;
+            UpPower2 = config.power2;
+            UpSpeed3 = config.speed3;
+            UpPower3 = config.power3;
+            UpSpeed4 = config.speed4;
+            UpPower4 = config.power4;
+            UpSpeed5 = config.speed5;
+            UpPower5 = config.power5;
+            UpSpeed6 = config.speed6;
+            UpPower6 = config.power6;
+            UpSpeed7 = config.speed7;
+            UpPower7 = config.power7;
+            UpbanjingA = config.banjingA;
+            UpbanjingB = config.banjingB;
+            Upjianju = config.jianju;
+            dataPath = config.dataPath;
+            //是否自动上传
+            AutoUpData = Convert.ToBoolean(config.AutoUpData);
+
+            UpFocalLength = config.FocalLength;
+            UpTime = config.Time;
+            txt_IP.Text = config.ip;
+            txt_Port.Text = config.port;
+            uiComboBox1.Items.Add("操作员");
+            uiComboBox1.Items.Add("管理员");
+            uiComboBox1.SelectedIndex = 0;
+            //读开关状态
+            one = Convert.ToBoolean(config.Switch1);
+            two = Convert.ToBoolean(config.Switch2);
+            three = Convert.ToBoolean(config.Switch3);
+            four = Convert.ToBoolean(config.Switch4);
+            five = Convert.ToBoolean(config.Switch5);
+            six = Convert.ToBoolean(config.Switch6);
+            seven = Convert.ToBoolean(config.Switch7);
+            eight = Convert.ToBoolean(config.Switch8);
+            nine = Convert.ToBoolean(config.Switch9);
+            ten = Convert.ToBoolean(config.Switch10);
+
         }
         #endregion
 
@@ -205,7 +207,7 @@ namespace DataUpload_framework_1._0
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur.  
+                // Handle any exceptions that may occur.
                 Console.WriteLine(ex.Message);
                 return "false";
             }
@@ -219,6 +221,8 @@ namespace DataUpload_framework_1._0
         /// <param name="e"></param>
         private void btn_Start_Click(object sender, EventArgs e)
         {
+            //重置登录状态
+            LoginStatus = false;
             //监听状态开启
             listenIn = true;
             //重置关闭
@@ -264,8 +268,6 @@ namespace DataUpload_framework_1._0
             cmb_Socket.Enabled = false;
             //txt_Msg.Enabled = false;
             uiComboBox1.Enabled = false;
-
-
         }
         public string strIp;
         /// <summary>
@@ -297,12 +299,12 @@ namespace DataUpload_framework_1._0
                     {
                         cmb_Socket.SelectedIndex = cmb_Socket.Items.Count - 1;
                     }
-
                     //定义接收客户端消息的线程
                     Thread threadReceive = new Thread(new ParameterizedThreadStart(Receive));
                     threadReceive.IsBackground = true;
                     threadReceive.Start(socketSend);
                     //Debug.WriteLine(1);
+                    Thread.Sleep(50);
                 }
             }
             catch { }
@@ -337,12 +339,13 @@ namespace DataUpload_framework_1._0
                         txt_Log.Invoke(receiveCallBack, strReceiveMsg);
                         if (!LoginStatus)
                         {
-                            if (str == "1")
+                            if (str != "")
                             {
                                 Auto();
                             }
                         }
                     }
+                    Thread.Sleep(50);
                 }
             }
             catch { }
@@ -366,11 +369,9 @@ namespace DataUpload_framework_1._0
         {
             this.cmb_Socket.Items.Add(strItem);
         }
+
         public string ip;
-        //假的波动值
-        //public int a;
-        //public int b;
-        //public Random rd = new Random();
+
         /// <summary>
         /// 自动应答
         /// </summary>
@@ -414,105 +415,7 @@ namespace DataUpload_framework_1._0
             {
                 MessageBox.Show(DateTime.Now.ToString("G") + "给客户端发送消息出错:" + ex.Message);
             }
-
         }
-
-
-        /// <summary>
-        /// 服务器给客户端发送消息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void btn_Send_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (LoginStatus)
-        //        {
-        //            //strMsg = this.txt_Msg.Text.Trim();
-        //        }
-        //        else
-        //        {
-        //            strMsg = UpSpeed + ";" + UpPower;
-        //        }
-
-        //        byte[] buffer = Encoding.Default.GetBytes(strMsg);
-        //        List<byte> list = new List<byte>();
-        //        list.Add(0);
-        //        list.AddRange(buffer);
-        //        //将泛型集合转换为数组
-        //        byte[] newBuffer = list.ToArray();
-        //        //获得用户选择的IP地址
-        //        string ip = this.cmb_Socket.SelectedItem.ToString();
-        //        dicSocket[ip].Send(newBuffer);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(DateTime.Now.ToString("G") + "给客户端发送消息出错:" + ex.Message);
-        //    }
-        //    //socketSend.Send(buffer);
-        //}
-        #region 过滤代码
-        ///// <summary>
-        ///// 选择要发送的文件
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void btn_Select_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog dia = new OpenFileDialog();
-        //    //设置初始目录
-        //    dia.InitialDirectory = @"";
-        //    dia.Title = "请选择要发送的文件";
-        //    //过滤文件类型
-        //    dia.Filter = "所有文件|*.*";
-        //    dia.ShowDialog();
-        //    //将选择的文件的全路径赋值给文本框
-        //    this.txt_FilePath.Text = dia.FileName;
-        //}
-
-        ///// <summary>
-        ///// 发送文件
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void btn_SendFile_Click(object sender, EventArgs e)
-        //{
-        //    List<byte> list = new List<byte>();
-        //    //获取要发送的文件的路径
-        //    string strPath = this.txt_FilePath.Text.Trim();
-        //    using (FileStream sw = new FileStream(strPath, FileMode.Open, FileAccess.Read))
-        //    {
-        //        byte[] buffer = new byte[2048];
-        //        int r = sw.Read(buffer, 0, buffer.Length);
-        //        list.Add(1);
-        //        list.AddRange(buffer);
-
-        //        byte[] newBuffer = list.ToArray();
-        //        //发送
-        //        //dicSocket[cmb_Socket.SelectedItem.ToString()].Send(newBuffer, 0, r+1, SocketFlags.None);
-        //        btn_SendFile.Invoke(sendCallBack, newBuffer);
-        //    }
-        //}
-
-        //private void SendFile(byte[] sendBuffer)
-        //{
-        //    try
-        //    {
-        //        dicSocket[cmb_Socket.SelectedItem.ToString()].Send(sendBuffer, SocketFlags.None);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("发送文件出错:" + ex.Message);
-        //    }
-        //}
-        #endregion
-
-        //private void btn_Shock_Click(object sender, EventArgs e)
-        //{
-        //    byte[] buffer = new byte[1] { 2 };
-        //    dicSocket[cmb_Socket.SelectedItem.ToString()].Send(buffer);
-        //}
 
         /// <summary>
         /// 停止监听
@@ -521,48 +424,37 @@ namespace DataUpload_framework_1._0
         /// <param name="e"></param>
         private void btn_StopListen_Click(object sender, EventArgs e)
         {
-            //停止监听先确认密码
-            PWD pWD = new PWD();
-            pWD.ShowDialog();
-            //如果登录密码正确
-            if (PasswordOk)
+            //清空已连接列表
+            cmb_Socket.Clear();
+            //监听状态关闭
+            listenIn = false;
+            //按钮禁用启用
+            uiButton2.Enabled = false;
+            uiButton1.Enabled = true;
+            uiButton4.Enabled = true;
+            uiComboBox1.Enabled = true;
+            //跳出循环结束线程
+            col = false;
+            if (socketWatch != null)
             {
-                //清空已连接列表
-                cmb_Socket.Clear();
-                //监听状态关闭
-                listenIn = false;
-                //按钮禁用启用
-                uiButton2.Enabled = false;
-                uiButton1.Enabled = true;
-                uiButton4.Enabled = true;
-                uiComboBox1.Enabled = true;
-                //跳出循环结束线程
-                col = false;
-                if (socketWatch != null)
-                {
-                    socketWatch.Close();
-                }
-                else if (socketSend != null)
-                {
-                    socketSend.Close();
-                }
-                //终止线程
-                if (AcceptSocketThread != null)
-                {
-                    AcceptSocketThread.Abort();
-                }
-                if (threadReceive != null)
-                {
-                    threadReceive.Abort();
-                }
-                this.txt_Log.AppendText(DateTime.Now.ToString("G") + "停止监听" + " \r");
-                //重置停止监听按键密码状态
-                PasswordOk = false;
+                socketWatch.Close();
             }
-            else
+            else if (socketSend != null)
             {
-                this.txt_Log.AppendText(DateTime.Now.ToString("G") + "输入正确密码停止监听" + " \r");
+                socketSend.Close();
             }
+            //终止线程
+            if (AcceptSocketThread != null)
+            {
+                AcceptSocketThread.Abort();
+            }
+            if (threadReceive != null)
+            {
+                threadReceive.Abort();
+            }
+            this.txt_Log.AppendText(DateTime.Now.ToString("G") + "停止监听" + " \r");
+            //重置停止监听按键密码状态
+            PasswordOk = false;
         }
 
         private void uiButton4_Click(object sender, EventArgs e)
@@ -622,30 +514,6 @@ namespace DataUpload_framework_1._0
             {
                 Data data = new Data();
                 data.ShowDialog();
-                //更新数据
-                UpSpeed1 = JsonConfigHelper.ReadConfig("speed1");
-                UpPower1 = JsonConfigHelper.ReadConfig("power1");
-                UpSpeed2 = JsonConfigHelper.ReadConfig("speed2");
-                UpPower2 = JsonConfigHelper.ReadConfig("power2");
-                UpSpeed3 = JsonConfigHelper.ReadConfig("speed3");
-                UpPower3 = JsonConfigHelper.ReadConfig("power3");
-                UpSpeed4 = JsonConfigHelper.ReadConfig("speed4");
-                UpPower4 = JsonConfigHelper.ReadConfig("power4");
-                UpSpeed5 = JsonConfigHelper.ReadConfig("speed5");
-                UpPower5 = JsonConfigHelper.ReadConfig("power5");
-                UpSpeed6 = JsonConfigHelper.ReadConfig("speed6");
-                UpPower6 = JsonConfigHelper.ReadConfig("power6");
-                UpSpeed7 = JsonConfigHelper.ReadConfig("speed7");
-                UpPower7 = JsonConfigHelper.ReadConfig("power7");
-                UpbanjingA = JsonConfigHelper.ReadConfig("banjingA");
-                UpbanjingB = JsonConfigHelper.ReadConfig("banjingB");
-                Upjianju = JsonConfigHelper.ReadConfig("jianju");
-
-
-
-
-                UpFocalLength = JsonConfigHelper.ReadConfig("FocalLength");
-                UpTime = JsonConfigHelper.ReadConfig("Time");
             }
         }
 
@@ -665,9 +533,7 @@ namespace DataUpload_framework_1._0
             else
             {
                 return fileContent;
-                //MessageBox.Show("指定的文件路径或文件名不存在。");
             }
-
         }
 
         public string files()
@@ -740,11 +606,6 @@ namespace DataUpload_framework_1._0
         {
             if (!listenIn)
             {
-                //删除程序目录的互锁文件
-                //DeleteFolder();
-                //存配置文件
-                JsonConfigHelper.WriteConfig("ip", txt_IP.Text);
-                JsonConfigHelper.WriteConfig("port", txt_Port.Text);
                 //转存日志
                 StreamWriter sw = File.AppendText(Environment.CurrentDirectory + @"\Log" + @"\" + DateTime.Now.ToString("D") + ".txt");
                 sw.WriteLine(txt_Log.Text);
@@ -757,7 +618,6 @@ namespace DataUpload_framework_1._0
                 this.txt_Log.AppendText(DateTime.Now.ToString("G") + "停止监听后再退出程序" + " \r");
                 e.Cancel = true;
             }
-
         }
 
         private void 打开日志目录ToolStripMenuItem_Click(object sender, EventArgs e)

@@ -48,7 +48,9 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.uiComboBox1 = new Sunny.UI.UIComboBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uiContextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // uiButton1
@@ -91,7 +93,7 @@
             this.txt_IP.Size = new System.Drawing.Size(150, 29);
             this.txt_IP.Style = Sunny.UI.UIStyle.Custom;
             this.txt_IP.TabIndex = 3;
-            this.txt_IP.Text = "127.0.0.1";
+            this.txt_IP.Text = "0.0.0.0";
             this.txt_IP.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.txt_IP.Value = ((System.Net.IPAddress)(resources.GetObject("txt_IP.Value")));
             // 
@@ -99,9 +101,7 @@
             // 
             this.txt_Port.ButtonSymbolOffset = new System.Drawing.Point(0, 0);
             this.txt_Port.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txt_Port.DoubleValue = 7800D;
             this.txt_Port.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_Port.IntValue = 7800;
             this.txt_Port.Location = new System.Drawing.Point(12, 195);
             this.txt_Port.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txt_Port.MinimumSize = new System.Drawing.Size(1, 16);
@@ -110,7 +110,6 @@
             this.txt_Port.ShowText = false;
             this.txt_Port.Size = new System.Drawing.Size(150, 29);
             this.txt_Port.TabIndex = 4;
-            this.txt_Port.Text = "7800";
             this.txt_Port.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.txt_Port.Watermark = "";
             // 
@@ -242,7 +241,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 300000;
+            this.timer1.Interval = 1800000;
             this.timer1.Tag = "";
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
@@ -252,18 +251,19 @@
             this.uiComboBox1.DataSource = null;
             this.uiComboBox1.FillColor = System.Drawing.Color.White;
             this.uiComboBox1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uiComboBox1.Location = new System.Drawing.Point(531, 14);
+            this.uiComboBox1.Location = new System.Drawing.Point(490, 14);
             this.uiComboBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uiComboBox1.MinimumSize = new System.Drawing.Size(63, 0);
             this.uiComboBox1.Name = "uiComboBox1";
             this.uiComboBox1.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
-            this.uiComboBox1.Size = new System.Drawing.Size(123, 29);
+            this.uiComboBox1.Size = new System.Drawing.Size(164, 29);
             this.uiComboBox1.TabIndex = 14;
             this.uiComboBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiComboBox1.Watermark = "";
             // 
             // uiLabel1
             // 
+            this.uiLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.uiLabel1.Location = new System.Drawing.Point(148, 413);
             this.uiLabel1.Name = "uiLabel1";
@@ -273,11 +273,23 @@
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.uiLabel1.DoubleClick += new System.EventHandler(this.uiLabel1_DoubleClick);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 386);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(167, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 16;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 451);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.uiLabel1);
             this.Controls.Add(this.uiComboBox1);
             this.Controls.Add(this.uiButton4);
@@ -294,10 +306,11 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 490);
             this.Name = "Form1";
-            this.Text = "DataUpload2.0";
+            this.Text = "科洛德激光参数上传_V2.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.uiContextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -322,6 +335,7 @@
         private System.Windows.Forms.ToolStripMenuItem 打开日志ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开日志目录ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 清空日志ToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

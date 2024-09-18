@@ -927,6 +927,7 @@
             this.Name = "Data";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "上传参数设定";
+            this.Load += new System.EventHandler(this.Data_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -21,79 +21,99 @@ namespace DataUpload_framework_1._0
         public Data()
         {
             InitializeComponent();
-            //下拉列表
-            //打开参数界面关闭停止监听按钮状态
+        }
+
+        //读配置文件
+        public static string configFilePath = "config.json";
+        public static JsonConfigManager configManager = new JsonConfigManager(configFilePath);
+        public ConfigClass config = configManager.Read<ConfigClass>();
+
+        /// <summary>
+        /// 窗口加载事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Data_Load(object sender, EventArgs e)
+        {
+            //重置密码状态
             Form1.PasswordOk = false;
             //载入数据
-            uiTextBox1.Text = JsonConfigHelper.ReadConfig("speed1");
-            uiTextBox2.Text = JsonConfigHelper.ReadConfig("power1");
-            uiTextBox3.Text = JsonConfigHelper.ReadConfig("speed2");
-            uiTextBox4.Text = JsonConfigHelper.ReadConfig("power2");
-            uiTextBox9.Text = JsonConfigHelper.ReadConfig("speed3");
-            uiTextBox10.Text = JsonConfigHelper.ReadConfig("power3");
-            uiTextBox11.Text = JsonConfigHelper.ReadConfig("speed4");
-            uiTextBox12.Text = JsonConfigHelper.ReadConfig("power4");
-            uiTextBox15.Text = JsonConfigHelper.ReadConfig("speed5");
-            uiTextBox16.Text = JsonConfigHelper.ReadConfig("power5");
-            uiTextBox17.Text = JsonConfigHelper.ReadConfig("speed6");
-            uiTextBox18.Text = JsonConfigHelper.ReadConfig("power6");
-            uiTextBox5.Text = JsonConfigHelper.ReadConfig("speed7");
-            uiTextBox6.Text = JsonConfigHelper.ReadConfig("power7");
-            uiTextBox13.Text = JsonConfigHelper.ReadConfig("banjingA");
-            uiTextBox14.Text = JsonConfigHelper.ReadConfig("banjingB");
-            uiTextBox19.Text = JsonConfigHelper.ReadConfig("jianju");
-            uiCheckBox1.Checked = Convert.ToBoolean(JsonConfigHelper.ReadConfig("AutoUpData"));
-            textBox1.Text = Form1.dataPath;
+            uiTextBox1.Text = config.speed1;
+            uiTextBox2.Text = config.power1;
+            uiTextBox3.Text = config.speed2;
+            uiTextBox4.Text = config.power2;
+            uiTextBox9.Text = config.speed3;
+            uiTextBox10.Text = config.power3;
+            uiTextBox11.Text = config.speed4;
+            uiTextBox12.Text = config.power4;
+            uiTextBox15.Text = config.speed5;
+            uiTextBox16.Text = config.power5;
+            uiTextBox17.Text = config.speed6;
+            uiTextBox18.Text = config.power6;
+            uiTextBox5.Text = config.speed7;
+            uiTextBox6.Text = config.power7;
+            uiTextBox13.Text = config.banjingA;
+            uiTextBox14.Text = config.banjingB;
+            uiTextBox19.Text = config.jianju;
+            uiCheckBox1.Checked = Convert.ToBoolean(config.AutoUpData);
+            textBox1.Text = config.dataPath;
+            uiTextBox7.Text = config.FocalLength;
+            uiTextBox8.Text = config.Time;
 
-            uiTextBox7.Text = JsonConfigHelper.ReadConfig("FocalLength");
-            uiTextBox8.Text = JsonConfigHelper.ReadConfig("Time");
-            ReaduiSwitch();
+            //读开关状态
+            uiSwitch1.Active = Convert.ToBoolean(config.Switch1);
+            uiSwitch2.Active = Convert.ToBoolean(config.Switch2);
+            uiSwitch3.Active = Convert.ToBoolean(config.Switch3);
+            uiSwitch4.Active = Convert.ToBoolean(config.Switch4);
+            uiSwitch5.Active = Convert.ToBoolean(config.Switch5);
+            uiSwitch6.Active = Convert.ToBoolean(config.Switch6);
+            uiSwitch7.Active = Convert.ToBoolean(config.Switch7);
+            uiSwitch8.Active = Convert.ToBoolean(config.Switch8);
+            uiSwitch9.Active = Convert.ToBoolean(config.Switch9);
+            uiSwitch10.Active = Convert.ToBoolean(config.Switch10);
         }
 
-        public void ReaduiSwitch()
+        /// <summary>
+        /// 保存并关闭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uiButton1_Click(object sender, EventArgs e)
         {
-            //读取开关状态
-            bool Switch1 = Form1.one;
-            bool Switch2 = Form1.two;
-            bool Switch3 = Form1.three;
-            bool Switch4 = Form1.four;
-            bool Switch5 = Form1.five;
-            bool Switch6 = Form1.six;
-            bool Switch7 = Form1.seven;
-            bool Switch8 = Form1.eight;
-            bool Switch9 = Form1.nine;
-            bool Switch10 = Form1.ten;
+            config.speed1 = uiTextBox1.Text;
+            config.power1 = uiTextBox2.Text;
+            config.speed2 = uiTextBox3.Text;
+            config.power2 = uiTextBox4.Text;
+            config.speed3 = uiTextBox9.Text;
+            config.power3 = uiTextBox10.Text;
+            config.speed4 = uiTextBox11.Text;
+            config.power4 = uiTextBox12.Text;
+            config.speed5 = uiTextBox15.Text;
+            config.power5 = uiTextBox16.Text;
+            config.speed6 = uiTextBox17.Text;
+            config.power6 = uiTextBox18.Text;
+            config.speed7 = uiTextBox5.Text;
+            config.power7 = uiTextBox6.Text;
+            config.banjingA = uiTextBox13.Text;
+            config.banjingB = uiTextBox14.Text;
+            config.jianju = uiTextBox19.Text;
+            config.AutoUpData = uiCheckBox1.Checked.ToString();
+            config.FocalLength = uiTextBox7.Text;
+            config.Time = uiTextBox8.Text;
+            config.dataPath = textBox1.Text;
 
+            config.Switch1= uiSwitch1.Active.ToString();
+            config.Switch2 = uiSwitch2.Active.ToString();
+            config.Switch3 = uiSwitch3.Active.ToString();
+            config.Switch4 = uiSwitch4.Active.ToString();
+            config.Switch5 = uiSwitch5.Active.ToString();
+            config.Switch6 = uiSwitch6.Active.ToString();
+            config.Switch7 = uiSwitch7.Active.ToString();
+            config.Switch8 = uiSwitch8.Active.ToString();
+            config.Switch9 = uiSwitch9.Active.ToString();
+            config.Switch10 = uiSwitch10.Active.ToString();
 
-            // 设置开关状态
-            uiSwitch1.Active = Switch1;
-            uiSwitch2.Active = Switch2;
-            uiSwitch3.Active = Switch3;
-            uiSwitch4.Active = Switch4;
-            uiSwitch5.Active = Switch5;
-            uiSwitch6.Active = Switch6;
-            uiSwitch7.Active = Switch7;
-            uiSwitch8.Active = Switch8;
-            uiSwitch9.Active = Switch9;
-            uiSwitch10.Active = Switch10;
-
-        }
-
-
-        public void SaveuiSwitch()
-        {
-            //把开关状态更新配置文件
-            AppSettings.SetValue("uiSwitch1", uiSwitch1.Active.ToString());
-            AppSettings.SetValue("uiSwitch2", uiSwitch2.Active.ToString());
-            AppSettings.SetValue("uiSwitch3", uiSwitch3.Active.ToString());
-            AppSettings.SetValue("uiSwitch4", uiSwitch4.Active.ToString());
-            AppSettings.SetValue("uiSwitch5", uiSwitch5.Active.ToString());
-            AppSettings.SetValue("uiSwitch6", uiSwitch6.Active.ToString());
-            AppSettings.SetValue("uiSwitch7", uiSwitch7.Active.ToString());
-            AppSettings.SetValue("uiSwitch8", uiSwitch8.Active.ToString());
-            AppSettings.SetValue("uiSwitch9", uiSwitch9.Active.ToString());
-            AppSettings.SetValue("uiSwitch10", uiSwitch10.Active.ToString());
-
+            configManager.Write(config);
 
             //重新更新变量
             Form1.one = uiSwitch1.Active;
@@ -106,41 +126,17 @@ namespace DataUpload_framework_1._0
             Form1.eight = uiSwitch8.Active;
             Form1.nine = uiSwitch9.Active;
             Form1.ten = uiSwitch10.Active;
-
-        }
-
-
-        private void uiButton1_Click(object sender, EventArgs e)
-        {
-            //写入数据
-            JsonConfigHelper.WriteConfig("speed1", uiTextBox1.Text);
-            JsonConfigHelper.WriteConfig("power1", uiTextBox2.Text);
-            JsonConfigHelper.WriteConfig("speed2", uiTextBox3.Text);
-            JsonConfigHelper.WriteConfig("power2", uiTextBox4.Text);
-            JsonConfigHelper.WriteConfig("speed3", uiTextBox9.Text);
-            JsonConfigHelper.WriteConfig("power3", uiTextBox10.Text);
-            JsonConfigHelper.WriteConfig("speed4", uiTextBox11.Text);
-            JsonConfigHelper.WriteConfig("power4", uiTextBox12.Text);
-            JsonConfigHelper.WriteConfig("speed5", uiTextBox15.Text);
-            JsonConfigHelper.WriteConfig("power5", uiTextBox16.Text);
-            JsonConfigHelper.WriteConfig("speed6", uiTextBox17.Text);
-            JsonConfigHelper.WriteConfig("power6", uiTextBox18.Text);
-            JsonConfigHelper.WriteConfig("speed7", uiTextBox5.Text);
-            JsonConfigHelper.WriteConfig("power7", uiTextBox6.Text);
-            JsonConfigHelper.WriteConfig("banjingA", uiTextBox13.Text);
-            JsonConfigHelper.WriteConfig("banjingB", uiTextBox14.Text);
-            JsonConfigHelper.WriteConfig("jianju", uiTextBox19.Text);
-            JsonConfigHelper.WriteConfig("AutoUpData", uiCheckBox1.Checked.ToString());
             Form1.AutoUpData = uiCheckBox1.Checked;
-            JsonConfigHelper.WriteConfig("FocalLength", uiTextBox7.Text);
-            JsonConfigHelper.WriteConfig("Time", uiTextBox8.Text);
             Form1.dataPath = textBox1.Text;
-            JsonConfigHelper.WriteConfig("datapath",Form1.dataPath);
-            SaveuiSwitch();
             //关闭窗口
             this.Close();
         }
 
+        /// <summary>
+        /// 加载上传文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
